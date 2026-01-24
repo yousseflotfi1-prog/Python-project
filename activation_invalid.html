@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lien invalide</title>
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family: Tahoma, Geneva, sans-serif; background:#f4f4f9; color:#333; display:flex; justify-content:center; align-items:center; min-height:100vh; }
+.container { background:white; padding:40px; border-radius:12px; box-shadow:0 5px 20px rgba(0,0,0,0.1); text-align:center; max-width:450px; width:90%; }
+h2 { color:#cc0000; margin-bottom:20px; font-size:1.8rem; }
+p { margin-bottom:15px; }
+a { color:#0077cc; text-decoration:none; font-weight:bold; }
+a:hover { text-decoration:underline; }
+</style>
+</head>
+<body>
+<div class="container">
+    <h2>Erreur ❌</h2>
+    <p>Le lien d'activation est invalide ou expiré.</p>
+    <a href="{% url 'signup' %}">Créer un nouveau compte</a>
+</div>
+</body>
+</html>

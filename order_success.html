@@ -1,0 +1,17 @@
+<!doctype html>
+<html lang="fr">
+
+<head>
+    <meta charset="utf-8">
+    <title>Commande</title>
+</head>
+
+<body>
+    <h2>✅ Commande confirmée !</h2>
+    <p>Merci {{ order.full_name }}. Numéro: <b>#{{ order.id }}</b></p>
+    <p>Total: <b>{{ order.total }} DH</b></p>
+    <p>Paiement: <b>{{ order.get_payment_method_display }}</b></p>
+    <a href="/">Retour à l’accueil</a>
+</body>
+
+</html>

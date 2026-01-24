@@ -1,0 +1,69 @@
+{% load static %}
+<!doctype html>
+<html lang="fr">
+
+<head>
+    <meta charset="utf-8">
+    <title>Panier</title>
+    <link rel="stylesheet" href="{% static 'blog/style.css' %}">
+</head>
+
+<body>
+
+    <header class="topbar">
+        <h2>Panier</h2>
+        <div class="top-actions">
+            <a href="{% url 'accueil' %}">⬅ Accueil</a>
+            <a href="{% url 'cart_detail' %}">🛒 ({{ cart_count }})</a>
+        </div>
+    </header>
+
+    <div class="container">
+
+        {% if items %}
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Livre</th>
+                    <th>Prix</th>
+                    <th>Quantité</th>
+                    <th>Total</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for it in items %}
+                <tr>
+                    <td>{{ it.book.titre }}</td>
+                    <td>{{ it.book.prix }} DH</td>
+                    <td class="qty">
+                        <a class="qtybtn" href="{% url 'cart_decrease' it.book.id %}">-</a>
+                        <span>{{ it.qty }}</span>
+                        <a class="qtybtn" href="{% url 'cart_add' it.book.id %}">+</a>
+                    </td>
+                    <td>{{ it.line_total }} DH</td>
+                    <td>
+                        <a class="danger" href="{% url 'cart_remove' it.book.id %}">Supprimer</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <div class="totalbox">
+            <strong>Sous-total :</strong> {{ subtotal }} DH
+        </div>
+
+        <div class="actions">
+            <a class="btn" href="{% url 'checkout' %}">Passer au paiement</a>
+        </div>
+
+        {% else %}
+        <p>Ton panier est vide.</p>
+        {% endif %}
+
+    </div>
+
+</body>
+
+</html>

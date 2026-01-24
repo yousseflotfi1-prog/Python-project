@@ -1,0 +1,75 @@
+{% load static %}
+<!doctype html>
+<html lang="fr">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Book Store</title>
+
+    <!-- IMPORTANT -->
+    <link rel="stylesheet" href="{% static 'blog/style.css' %}">
+</head>
+
+<body>
+
+    <header class="topbar">
+        <h2>Book Store</h2>
+
+        <div class="top-actions">
+            <a href="{% url 'cart_detail' %}">
+        🛒 Panier <span class="badge">{{ cart_count }}</span>
+      </a>
+
+            <a href="{% url 'login' %}">Login</a>
+            <a class="primary" href="{% url 'signup' %}">Signup</a>
+        </div>
+    </header>
+
+    <div class="container">
+
+        <form method="GET" class="filters">
+            <input type="text" name="q" placeholder="Rechercher un livre..." value="{{ query|default:'' }}">
+
+            <select name="cat">
+        <option value="all" {% if cat == "all" %}selected{% endif %}>Toutes les catégories</option>
+        {% for c in categories %}
+          <option value="{{ c.id }}" {% if cat|stringformat:"s" == c.id|stringformat:"s" %}selected{% endif %}>
+            {{ c.name }}
+          </option>
+        {% endfor %}
+      </select>
+
+            <button type="submit">Filtrer</button>
+        </form>
+
+        <div class="books-grid">
+            {% for b in books %}
+            <div class="book-card">
+                {% if b.image %}
+                <img src="{{ b.image.url }}" alt="{{ b.titre }}"> {% else %}
+                <div class="noimg">No image</div>
+                {% endif %}
+
+                <h3>{{ b.titre }}</h3>
+
+                {% if b.category %}
+                <p class="cat">Catégorie : {{ b.category.name }}</p>
+                {% endif %}
+
+                <p class="price">{{ b.prix }} DH</p>
+
+                <div class="card-actions">
+                    <a class="btn" href="{% url 'cart_add' b.id %}">Ajouter au panier</a>
+                </div>
+            </div>
+            {% empty %}
+            <p>Aucun livre trouvé.</p>
+            {% endfor %}
+        </div>
+
+    </div>
+
+</body>
+
+</html>

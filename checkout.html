@@ -1,0 +1,75 @@
+{% load static %}
+<!doctype html>
+<html lang="fr">
+
+<head>
+    <meta charset="utf-8">
+    <title>Checkout</title>
+    <link rel="stylesheet" href="{% static 'blog/style.css' %}">
+</head>
+
+<body>
+
+    <header class="topbar">
+        <h2>Checkout</h2>
+        <div class="top-actions">
+            <a href="{% url 'cart_detail' %}" class="back-btn">← Panier</a>
+        </div>
+    </header>
+
+    <div class="container checkout-container">
+
+        {% if error %}
+        <div class="error">{{ error }}</div>
+        {% endif %}
+
+        <p class="checkout-info">Veuillez remplir : nom, téléphone, adresse.</p>
+
+        <h3>Récap</h3>
+        <ul class="recap-list">
+            {% for it in items %}
+            <li>{{ it.book.titre }} × {{ it.qty }} = {{ it.line_total }} DH</li>
+            {% endfor %}
+        </ul>
+
+        <div class="totals">
+            <p><b>Sous-total:</b> {{ subtotal }} DH</p>
+            <p><b>Livraison:</b> {{ shipping_fee }} DH</p>
+            <p class="total"><b>Total:</b> {{ total }} DH</p>
+        </div>
+
+        <h3>Informations</h3>
+
+        <form method="POST" class="checkout-form">
+            {% csrf_token %}
+
+            <!-- INFOS CLIENT -->
+            <div class="form-grid">
+                <input type="text" name="full_name" placeholder="Nom complet" value="{{ form.full_name|default:'' }}">
+                <input type="text" name="phone" placeholder="Téléphone" value="{{ form.phone|default:'' }}">
+                <input type="text" name="city" placeholder="Ville" value="{{ form.city|default:'' }}">
+                <textarea name="address" placeholder="Adresse">{{ form.address|default:'' }}</textarea>
+            </div>
+
+            <!-- PAIEMENT -->
+            <div class="payment-section">
+                <label>Méthode de paiement</label>
+                <select name="payment_method">
+                <option value="COD" {% if form.payment_method == "COD" %}selected{% endif %}>
+                    Cash on Delivery
+                </option>
+                <option value="CARD" {% if form.payment_method == "CARD" %}selected{% endif %}>
+                    Bank Card
+                </option>
+            </select>
+            </div>
+
+            <!-- BOUTON -->
+            <button class="checkout-btn" type="submit">Confirmer la commande</button>
+        </form>
+
+    </div>
+
+</body>
+
+</html>
